@@ -18,12 +18,12 @@
 # }
 
 
-resource "google_compute_instance" "wtf_instance" {
-  name         = "wtf-instance"
+resource "google_compute_instance" "wtf_instance_2" {
+  name         = "wtf-instance-2"
   machine_type = "e2-medium"
   zone         = "europe-north1-a"
   tags         = ["test-instance", "lovlla", "rdp-enabled"]
-    
+      
   labels = {
     app        = "test-instance"
     costcenter = "lovlla-ab"
@@ -50,7 +50,10 @@ resource "google_compute_instance" "wtf_instance" {
 
   service_account {
     email  = google_service_account.lovlla.email
-    scopes = []
+    scopes = [
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write"
+    ]
   }
 
   shielded_instance_config {
