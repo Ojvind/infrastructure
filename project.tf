@@ -14,13 +14,29 @@ resource "google_project" "this" {
   name            = var.project_name
   org_id          = var.organization_id
   billing_account = var.billing_account
+  deletion_policy = "DELETE"
+  lifecycle {
+    prevent_destroy = false  # Tillåter borttagning av projekt
+  }
 }
 
 resource "google_project_service" "this" {
   for_each = toset([
     "compute",
-    "container",
-    "pubsub"
+    "logging",
+    "monitoring",
+    # "container",
+    # "pubsub",
+    # "iam",
+    # "cloudkms",
+    # "iamcredentials",
+    # "cloudresourcemanager",
+    # "sts",
+    # "cloudfunctions",
+    # "eventarc",
+    # "run",
+    # "cloudbuild",
+    # "storage"
   ])
 
   service = "${each.key}.googleapis.com"
